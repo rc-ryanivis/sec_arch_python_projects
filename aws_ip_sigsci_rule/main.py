@@ -15,16 +15,16 @@ def main():
     print("-------- export SIGSCI_API_TOKEN=<TOKEN VALUE> --------")
     print("-------- export SIGSCI_CORP=redcanary --------")
 
-    #PROCESSING SECTION
-    list_of_public_ips = []
-
     #LOAD IN SIGSCI API Requirements
     sig_sci_api_key=os.environ['SIGSCI_API_TOKEN']
     sig_sci_corp=os.environ['SIGSCI_CORP']
     sig_sci_email=os.environ['SIGSCI_EMAIL']
     sig_sci_site_name="cb_servers"
     
-    #ENSURES YOUR SIGSCI COMPONENTS ARE SET; IF THEY ARE NOT EXIT
+    ################ PROCESSING SECTION ################
+    list_of_public_ips = []
+
+    ###ENSURES YOUR SIGSCI COMPONENTS ARE SET; IF THEY ARE NOT EXIT
     try:
         sigsciRC = sigsci_redcanary.SigSciApiRedCanary(email=sig_sci_email, api_token=sig_sci_api_key)
     except:
@@ -37,7 +37,7 @@ def main():
         print("No Corp found. Check -h. Exit.")
         sys.exit(1)
 
-    #USE BOTO3 TO EXTRACT THE PUBLIC IPs
+    ###USE BOTO3 TO EXTRACT THE PUBLIC IPs
     for region in regions_to_list:
         client = boto3.client(    
             'ec2', 
@@ -48,7 +48,7 @@ def main():
             list_of_public_ips.append(eip_dict['PublicIp'])
 
 
-    #BUILD DATA OBJECT TO PUSH TO SIGSCI API TO UPDATE THE DYNAMIC LIST
+    ###BUILD DATA OBJECT TO PUSH TO SIGSCI API TO UPDATE THE DYNAMIC LIST
     data_obj = {
         "description": "List of all public IP addresses inside of the Primary Red Canary AWS Account All Regions.",
         "entries": list_of_public_ips
@@ -57,6 +57,7 @@ def main():
     #INTERACT WITH THE SIGSCI API TO UPDATE THE LIST
     sigsciRC.update_site_rule_lists(site_name=sig_sci_site_name,data=data_obj,identifier="site.redcanary-aws-public-ips")
 
+    ############## END PROCESSING SECTION ##############
 
 if __name__ == "__main__":
     main()

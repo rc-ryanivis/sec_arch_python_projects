@@ -19,8 +19,11 @@ def main():
     sig_sci_corp=os.environ['SIGSCI_CORP']
     sig_sci_email=os.environ['SIGSCI_EMAIL']
     sig_sci_site_name="cb_servers"
-    
-    ################ PROCESSING SECTION ################
+
+    sig_sci_list_identifier="site.redcanary-aws-public-ips"
+
+    ################################################################
+    ################ PROCESSING SECTION ############################
     list_of_public_ips = []
 
     ###ENSURES YOUR SIGSCI COMPONENTS ARE SET; IF THEY ARE NOT EXIT
@@ -41,7 +44,6 @@ def main():
         for eip_dict in addresses_dict['Addresses']:
             list_of_public_ips.append(eip_dict['PublicIp'])
 
-
     ###BUILD DATA OBJECT TO PUSH TO SIGSCI API TO UPDATE THE DYNAMIC LIST
     data_obj = {
         "description": "List of all public IP addresses inside of the Primary Red Canary AWS Account All Regions.",
@@ -49,10 +51,12 @@ def main():
     }
 
     #INTERACT WITH THE SIGSCI API TO UPDATE THE LIST
-    sigsciRC.update_site_rule_lists(site_name=sig_sci_site_name,data=data_obj,identifier="site.redcanary-aws-public-ips")
+    sigsciRC.update_site_rule_lists(site_name=sig_sci_site_name,data=data_obj,identifier=sig_sci_list_identifier)
 
-    print(str(data_obj) + "  ::  ::  Pushed to SigSci.")
-    ############## END PROCESSING SECTION ##############
+    print(str(data_obj) + "  <-- Pushed to SigSci.")
+
+    ############## END PROCESSING SECTION ##########################
+    ################################################################
 
 
 if __name__ == "__main__":

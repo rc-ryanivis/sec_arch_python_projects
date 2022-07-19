@@ -1,6 +1,5 @@
 import boto3
 import os
-import json
 import sys
 from libs import sigsci_redcanary
 
@@ -57,6 +56,7 @@ def main():
     #INTERACT WITH THE SIGSCI API TO UPDATE THE LIST
     sigsciRC.update_site_rule_lists(site_name=sig_sci_site_name,data=data_obj,identifier="site.redcanary-aws-public-ips")
 
+    print(data_obj + "  ::  ::  Pushed to SigSci.")
     ############## END PROCESSING SECTION ##############
 
 if __name__ == "__main__":

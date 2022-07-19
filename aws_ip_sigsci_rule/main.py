@@ -8,8 +8,8 @@ def main():
     regions_to_list= ('us-east-1','us-east-2','us-west-1','eu-west-1')
 
     #USER NOTIFICATION SECTION
-    print("You need to import AWS Credentials into your env vars for boto3 to pick them up. AWS SSO temp credentials can be used.")
-    print("You need to have your sigsci env vars configured for this script to work. Env Vars should look like the following.")
+    print("You need!!!  to import AWS Credentials into your env vars for boto3 to pick them up. AWS SSO temp credentials can be used.")
+    print("You need!!!  to have your sigsci env vars configured for this script to work. Env Vars should look like the following.")
     print("-------- export SIGSCI_EMAIL=name@redcanary.com --------")
     print("-------- export SIGSCI_API_TOKEN=<TOKEN VALUE> --------")
     print("-------- export SIGSCI_CORP=redcanary --------")
@@ -26,14 +26,9 @@ def main():
     ###ENSURES YOUR SIGSCI COMPONENTS ARE SET; IF THEY ARE NOT EXIT
     try:
         sigsciRC = sigsci_redcanary.SigSciApiRedCanary(email=sig_sci_email, api_token=sig_sci_api_key)
-    except:
-        print("No User / API Key was found. Check -h. Exit.")
-        sys.exit(1)
-
-    try:
         sigsciRC.corp = sig_sci_corp
     except:
-        print("No Corp found. Check -h. Exit.")
+        print("No User / API Key was found / or no corp was found... Check -h. Exit.")
         sys.exit(1)
 
     ###USE BOTO3 TO EXTRACT THE PUBLIC IPs
@@ -58,6 +53,7 @@ def main():
 
     print(str(data_obj) + "  ::  ::  Pushed to SigSci.")
     ############## END PROCESSING SECTION ##############
+
 
 if __name__ == "__main__":
     main()

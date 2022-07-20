@@ -31,7 +31,7 @@ def main():
         sigsciRC = sigsci_redcanary.SigSciApiRedCanary(email=sig_sci_email, api_token=sig_sci_api_key)
         sigsciRC.corp = sig_sci_corp
     except:
-        print("No User / API Key was found / or no corp was found... Check -h. Exit.")
+        print("No User / API Key was found / or no corp was found.... Exit.")
         sys.exit(1)
 
     ###USE BOTO3 TO EXTRACT THE PUBLIC IPs
